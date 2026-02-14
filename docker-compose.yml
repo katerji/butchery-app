@@ -1,0 +1,28 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ${DB_USER:-butchery}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-butchery_secret}
+      POSTGRES_DB: ${DB_NAME:-butchery_db}
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-butchery} -d ${DB_NAME:-butchery_db}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  flyway:
+    image: flyway/flyway:10
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: -url=jdbc:postgresql://postgres:5432/${DB_NAME:-butchery_db} -user=${DB_USER:-butchery} -password=${DB_PASSWORD:-butchery_secret} migrate
+    volumes:
+      - ./backend/internal/infrastructure/persistence/postgres/migrations:/flyway/sql
+
+volumes:
+  postgres_data:
