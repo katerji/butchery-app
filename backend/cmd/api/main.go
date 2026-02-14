@@ -7,6 +7,8 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/joho/godotenv"
+
 	admincmd "github.com/katerji/butchery-app/backend/internal/application/admin/commands"
 	authcmd "github.com/katerji/butchery-app/backend/internal/application/auth/commands"
 	custcmd "github.com/katerji/butchery-app/backend/internal/application/customer/commands"
@@ -34,6 +36,8 @@ import (
 
 func main() {
 	logger := slog.New(slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelInfo}))
+
+	_ = godotenv.Load("../.env", ".env")
 
 	cfg, err := config.Load()
 	if err != nil {
