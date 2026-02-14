@@ -12,15 +12,24 @@ A butchery management application built as a **monorepo** containing:
 
 > These rules are **non-negotiable** and must be followed at all times.
 
+### Zero-Assumption Policy
+
+**ALWAYS ask. NEVER assume. No exceptions.**
+
 - **NEVER assume requirements.** If anything is ambiguous, unclear, or could be interpreted in multiple ways — stop and ask a clarification question before proceeding.
 - **NEVER assume business logic.** Always ask what the expected behavior should be. Do not guess domain rules.
+- **NEVER assume technical decisions.** If there are multiple valid approaches, ask the user which one they prefer.
 - **NEVER implement a feature without confirming the acceptance criteria** with the user first.
+- **NEVER proceed if uncertain.** If you are even slightly unsure about anything — the expected behavior, the scope, the naming, the edge cases, the error handling — **stop and ask**. A question costs nothing; a wrong assumption wastes time and creates rework.
+- **When in doubt, ask.** There is no scenario where guessing is preferable to asking.
 - **Always confirm before**:
   - Creating a new bounded context or aggregate
   - Adding a new database table or modifying an existing schema
   - Introducing a new dependency or third-party library
   - Making architectural decisions that affect multiple layers
   - Deleting or renaming existing code that other parts depend on
+  - Choosing between multiple valid implementations
+  - Deciding on error messages, validation rules, or response formats
 - When presenting options, explain trade-offs clearly and let the user decide.
 - Prefer asking one focused question over making a wrong assumption.
 
@@ -318,4 +327,13 @@ When implementing any new feature, always follow this order:
 7. **Write integration tests** — test repositories against a real database.
 8. **Implement HTTP handlers** — request/response handling, validation.
 9. **Write handler tests** — test the full HTTP flow.
-10. **Implement the frontend** — UI components, API integration.
+10. **Write E2E tests** — cover the critical user flows for this feature end-to-end.
+11. **Implement the frontend** — UI components, API integration.
+
+### Mandatory E2E Tests for Features
+
+- **Every feature MUST have E2E tests.** E2E tests are not optional — they are a required deliverable for every feature.
+- Before starting work, **ask the user**: "Is this a feature that requires E2E tests?" If the answer is yes (or if the work introduces new user-facing functionality, new endpoints, or new flows), E2E tests must be written.
+- E2E tests should cover the **critical happy paths** and **key error scenarios** for the feature.
+- E2E tests run against a real stack (real database, real HTTP server) — no mocks.
+- Do NOT consider a feature complete until its E2E tests are written and passing.
