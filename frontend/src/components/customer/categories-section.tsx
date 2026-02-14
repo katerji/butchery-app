@@ -47,10 +47,10 @@ export function CategoriesSection() {
           {categories.map((category) => (
             <Card
               key={category.name}
-              className="group cursor-pointer border-border/50 transition-all hover:border-primary/30 hover:shadow-md"
+              className="border-border/50 transition-shadow hover:shadow-md"
             >
               <CardContent className="flex flex-col items-center p-8 text-center">
-                <div className="flex size-14 items-center justify-center rounded-full bg-primary/10 transition-colors group-hover:bg-primary/20">
+                <div className="flex size-14 items-center justify-center rounded-full bg-primary/10">
                   <category.icon className="size-7 text-primary" />
                 </div>
                 <h3 className="mt-4 font-serif text-xl font-semibold text-foreground">

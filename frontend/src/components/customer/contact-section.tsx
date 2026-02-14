@@ -5,7 +5,7 @@ const contactDetails = [
   {
     icon: MapPin,
     title: "Location",
-    lines: ["123 High Street", "Sydney, NSW 2000"],
+    lines: ["Al Barsha, Dubai", "United Arab Emirates"],
   },
   {
     icon: Clock,
@@ -15,7 +15,7 @@ const contactDetails = [
   {
     icon: Phone,
     title: "Get in Touch",
-    lines: ["(02) 1234 5678", "hello@butchery.com.au"],
+    lines: ["+971 4 123 4567", "hello@butchery.ae"],
   },
 ];
 
