@@ -131,6 +131,30 @@
     "loginHeading": "Log in",
     "registerHeading": "Create an account",
     "adminLoginHeading": "Admin Login",
-    "adminTitle": "Admin Login - Butchery"
+    "adminTitle": "Admin Login - Butchery",
+    "register": {
+      "fullNameLabel": "Full name",
+      "fullNamePlaceholder": "Enter your full name",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "phoneLabel": "Phone number",
+      "phonePlaceholder": "05x xxx xxxx",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "At least 8 characters",
+      "submit": "Create account",
+      "submitting": "Creating account...",
+      "fullNameRequired": "Full name is required",
+      "emailRequired": "Email is required",
+      "emailInvalid": "Please enter a valid email address",
+      "phoneRequired": "Phone number is required",
+      "phoneInvalid": "Please enter a valid UAE mobile number (05x xxx xxxx)",
+      "passwordRequired": "Password is required",
+      "passwordMinLength": "Password must be at least 8 characters",
+      "emailAlreadyExists": "An account with this email already exists",
+      "serverError": "Something went wrong. Please try again.",
+      "haveAccount": "Already have an account?",
+      "logIn": "Log in"
+    },
+    "registrationSuccess": "Account created successfully. Please log in."
   }
 }

@@ -131,6 +131,30 @@
     "loginHeading": "تسجيل الدخول",
     "registerHeading": "إنشاء حساب",
     "adminLoginHeading": "دخول المدير",
-    "adminTitle": "دخول المدير - المسلخ"
+    "adminTitle": "دخول المدير - المسلخ",
+    "register": {
+      "fullNameLabel": "الاسم الكامل",
+      "fullNamePlaceholder": "أدخل اسمك الكامل",
+      "emailLabel": "البريد الإلكتروني",
+      "emailPlaceholder": "you@example.com",
+      "phoneLabel": "رقم الهاتف",
+      "phonePlaceholder": "05x xxx xxxx",
+      "passwordLabel": "كلمة المرور",
+      "passwordPlaceholder": "٨ أحرف على الأقل",
+      "submit": "إنشاء حساب",
+      "submitting": "جارٍ إنشاء الحساب...",
+      "fullNameRequired": "الاسم الكامل مطلوب",
+      "emailRequired": "البريد الإلكتروني مطلوب",
+      "emailInvalid": "يرجى إدخال بريد إلكتروني صالح",
+      "phoneRequired": "رقم الهاتف مطلوب",
+      "phoneInvalid": "يرجى إدخال رقم هاتف إماراتي صالح (05x xxx xxxx)",
+      "passwordRequired": "كلمة المرور مطلوبة",
+      "passwordMinLength": "كلمة المرور يجب أن تكون ٨ أحرف على الأقل",
+      "emailAlreadyExists": "يوجد حساب مسجّل بهذا البريد الإلكتروني",
+      "serverError": "حدث خطأ. يرجى المحاولة مرة أخرى.",
+      "haveAccount": "لديك حساب بالفعل؟",
+      "logIn": "تسجيل الدخول"
+    },
+    "registrationSuccess": "تم إنشاء الحساب بنجاح. يرجى تسجيل الدخول."
   }
 }
