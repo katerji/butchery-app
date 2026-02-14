@@ -337,3 +337,13 @@ When implementing any new feature, always follow this order:
 - E2E tests should cover the **critical happy paths** and **key error scenarios** for the feature.
 - E2E tests run against a real stack (real database, real HTTP server) — no mocks.
 - Do NOT consider a feature complete until its E2E tests are written and passing.
+
+### Post-Feature Verification (Mandatory)
+
+After finishing any feature (all code written, all tests written), you **MUST** run the following checks before considering the work done:
+
+1. **Unit tests** — `go test ./...` from the `backend/` directory (excludes e2e tests with build tags if applicable).
+2. **E2E tests** — `go test ./internal/e2e/...` from the `backend/` directory.
+3. **Linter** — `golangci-lint run ./...` from the `backend/` directory.
+
+All three must pass. If any fail, fix the issues and re-run until everything is green. Do NOT report the feature as complete until all checks pass.
