@@ -41,7 +41,7 @@ func NewRouter(deps RouterDeps) *chi.Mux {
 
 	r.Get("/health", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`{"status":"ok"}`))
+		_, _ = w.Write([]byte(`{"status":"ok"}`))
 	})
 
 	r.Route("/api/v1", func(r chi.Router) {

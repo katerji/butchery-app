@@ -29,18 +29,6 @@ func (m *mockTokenGenerator) GenerateRefreshToken() (string, error) {
 	return args.String(0), args.Error(1)
 }
 
-type mockTokenValidator struct {
-	mock.Mock
-}
-
-func (m *mockTokenValidator) ValidateAccessToken(token string) (*auth.AccessTokenClaims, error) {
-	args := m.Called(token)
-	if args.Get(0) == nil {
-		return nil, args.Error(1)
-	}
-	return args.Get(0).(*auth.AccessTokenClaims), args.Error(1)
-}
-
 type mockRefreshTokenRepository struct {
 	mock.Mock
 }

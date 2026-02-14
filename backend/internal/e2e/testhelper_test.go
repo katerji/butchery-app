@@ -173,26 +173,6 @@ func (ts *testServer) postJSONWithAuth(t *testing.T, path string, body any, toke
 	return resp
 }
 
-// truncateAll clears all tables.
-func (ts *testServer) truncateAll(t *testing.T) {
-	t.Helper()
-	_, err := ts.pool.Exec(context.Background(), "TRUNCATE TABLE refresh_tokens, customers, admins CASCADE")
-	require.NoError(t, err, "failed to truncate tables")
-}
-
-// seedAdmin re-inserts the default admin after truncation.
-func (ts *testServer) seedAdmin(t *testing.T) {
-	t.Helper()
-	_, err := ts.pool.Exec(context.Background(), `
-		INSERT INTO admins (id, email, password_hash, full_name) VALUES (
-			'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
-			'admin@butchery.com',
-			'$2a$10$d289JaI7YejP3oQ0vOitNefGHndET66ybc9tDxQ.hDZ4DLWustUm.',
-			'Butchery Admin'
-		) ON CONFLICT (email) DO NOTHING`)
-	require.NoError(t, err, "failed to seed admin")
-}
-
 // responseEnvelope matches the httpresponse.Response structure.
 type responseEnvelope struct {
 	Data  json.RawMessage `json:"data,omitempty"`
