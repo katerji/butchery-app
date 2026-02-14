@@ -6,6 +6,10 @@ A butchery management application built as a **monorepo** containing:
 - **Backend**: Go (REST API) with PostgreSQL
 - **Frontend**: Next.js + TypeScript + Tailwind CSS + shadcn/ui
 
+### Business Context
+- **Halal butchery** — all products are halal certified. No pork.
+- **Currency**: AED (UAE Dirham). All prices, amounts, and monetary values must use AED.
+
 ---
 
 ## Interaction Rules
@@ -248,6 +252,23 @@ butchery-app/
 - Keep components small and focused. Extract reusable logic into custom hooks.
 - Use `fetch` or a lightweight client for API calls. Keep API logic in `lib/api/`.
 - Validate forms with **React Hook Form** + **Zod** for schema validation.
+
+### Chrome Integration for Frontend Development
+
+Use Claude Code's Chrome integration when working on frontend features. Launch with `claude --chrome` or enable via `/chrome` in-session.
+
+**Use Chrome to:**
+- Visually verify UI changes at `localhost:3000` after implementing components
+- Test form validation by filling forms with valid/invalid data
+- Read browser console logs to catch JavaScript errors
+- Test full user flows (e.g., signup → login → dashboard) in the real browser
+- Compare implemented UI against Figma designs
+
+**When to use it:**
+- After implementing any UI component — verify it renders correctly
+- After adding form validation — test with edge cases in the real browser
+- When debugging frontend issues — check console errors and DOM state
+- During E2E manual verification of frontend features
 
 ---
 
