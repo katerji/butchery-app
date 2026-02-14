@@ -19,15 +19,22 @@ export async function apiClient<T>(
   endpoint: string,
   options?: RequestInit,
 ): Promise<T> {
+  const { headers, ...rest } = options ?? {};
+
   const response = await fetch(`${API_URL}${endpoint}`, {
+    ...rest,
     headers: {
       "Content-Type": "application/json",
-      ...options?.headers,
+      ...headers,
     },
-    ...options,
   });
 
-  const body: ApiResponse<T> = await response.json();
+  let body: ApiResponse<T>;
+  try {
+    body = await response.json();
+  } catch {
+    throw new ApiError("An unexpected error occurred", response.status);
+  }
 
   if (!response.ok) {
     throw new ApiError(
@@ -36,5 +43,9 @@ export async function apiClient<T>(
     );
   }
 
-  return body.data as T;
+  if (body.data === null) {
+    throw new ApiError("No data returned", response.status);
+  }
+
+  return body.data;
 }

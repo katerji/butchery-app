@@ -41,7 +41,7 @@ export function RegisterForm() {
     full_name: z.string().min(1, t("fullNameRequired")),
     email: z.string().min(1, t("emailRequired")).email(t("emailInvalid")),
     phone: z.string().min(1, t("phoneRequired")).regex(UAE_MOBILE_REGEX, t("phoneInvalid")),
-    password: z.string().min(1, t("passwordRequired")).min(8, t("passwordMinLength")),
+    password: z.string().min(8, t("passwordMinLength")),
   });
 
   const form = useForm<RegisterFormValues>({

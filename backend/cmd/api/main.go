@@ -37,7 +37,9 @@ import (
 func main() {
 	logger := slog.New(slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelInfo}))
 
-	_ = godotenv.Load("../.env", ".env")
+	if err := godotenv.Load("../.env", ".env"); err != nil {
+		logger.Info("no .env file loaded", slog.String("detail", err.Error()))
+	}
 
 	cfg, err := config.Load()
 	if err != nil {
