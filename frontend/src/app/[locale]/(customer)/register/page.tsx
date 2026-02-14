@@ -1,21 +1,27 @@
-import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
+import { useLocale } from "next-intl";
 
 export default function CustomerRegisterPage() {
+  const t = useTranslations();
+  const locale = useLocale();
+  const BackArrow = locale === "ar" ? ArrowRight : ArrowLeft;
+
   return (
     <div className="flex min-h-[60vh] flex-col items-center justify-center px-6">
       <div className="text-center">
         <h1 className="font-serif text-3xl font-bold text-foreground">
-          Create an account
+          {t("auth.registerHeading")}
         </h1>
         <p className="mt-4 text-muted-foreground">
-          This page is coming soon. Check back later.
+          {t("common.comingSoon")}
         </p>
         <Button variant="outline" size="sm" className="mt-8" asChild>
           <Link href="/">
-            <ArrowLeft className="size-4" />
-            Back to home
+            <BackArrow className="size-4" />
+            {t("common.backToHome")}
           </Link>
         </Button>
       </div>

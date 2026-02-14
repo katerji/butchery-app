@@ -1,19 +1,22 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
+import { LanguageSwitcher } from "@/components/language-switcher";
 import { Menu, X } from "lucide-react";
-
-const navLinks = [
-  { href: "#categories", label: "Our Meats" },
-  { href: "#specials", label: "Specials" },
-  { href: "#about", label: "About" },
-  { href: "#contact", label: "Contact" },
-];
 
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const t = useTranslations("nav");
+
+  const navLinks = [
+    { href: "#categories", label: t("ourMeats") },
+    { href: "#specials", label: t("specials") },
+    { href: "#about", label: t("about") },
+    { href: "#contact", label: t("contact") },
+  ];
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-md">
@@ -33,11 +36,12 @@ export function Header() {
             </a>
           ))}
           <div className="flex items-center gap-3">
+            <LanguageSwitcher />
             <Button variant="ghost" size="sm" asChild>
-              <Link href="/login">Log in</Link>
+              <Link href="/login">{t("logIn")}</Link>
             </Button>
             <Button size="sm" asChild>
-              <Link href="/register">Sign up</Link>
+              <Link href="/register">{t("signUp")}</Link>
             </Button>
           </div>
         </nav>
@@ -68,11 +72,12 @@ export function Header() {
               </a>
             ))}
             <div className="flex flex-col gap-2 pt-2">
+              <LanguageSwitcher />
               <Button variant="ghost" size="sm" asChild>
-                <Link href="/login">Log in</Link>
+                <Link href="/login">{t("logIn")}</Link>
               </Button>
               <Button size="sm" asChild>
-                <Link href="/register">Sign up</Link>
+                <Link href="/register">{t("signUp")}</Link>
               </Button>
             </div>
           </div>

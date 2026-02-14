@@ -1,22 +1,26 @@
-import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { Separator } from "@/components/ui/separator";
 
-const shopLinks = [
-  { href: "#categories", label: "Our Meats" },
-  { href: "#specials", label: "Weekly Specials" },
-];
-
-const infoLinks = [
-  { href: "#about", label: "About Us" },
-  { href: "#contact", label: "Contact" },
-];
-
-const accountLinks = [
-  { href: "/login", label: "Log in" },
-  { href: "/register", label: "Sign up" },
-];
-
 export function Footer() {
+  const t = useTranslations("footer");
+  const tNav = useTranslations("nav");
+
+  const shopLinks = [
+    { href: "#categories", label: t("shopOurMeats") },
+    { href: "#specials", label: t("shopWeeklySpecials") },
+  ];
+
+  const infoLinks = [
+    { href: "#about", label: t("infoAboutUs") },
+    { href: "#contact", label: t("infoContact") },
+  ];
+
+  const accountLinks = [
+    { href: "/login" as const, label: tNav("logIn") },
+    { href: "/register" as const, label: tNav("signUp") },
+  ];
+
   return (
     <footer className="border-t border-border/50 bg-muted/30">
       <div className="mx-auto max-w-7xl px-6 py-12">
@@ -26,13 +30,12 @@ export function Footer() {
               Butchery
             </Link>
             <p className="mt-3 max-w-xs text-sm leading-relaxed text-muted-foreground">
-              Premium halal meats, expertly prepared and delivered fresh to your
-              table.
+              {t("description")}
             </p>
           </div>
 
           <div>
-            <h4 className="text-sm font-semibold text-foreground">Shop</h4>
+            <h4 className="text-sm font-semibold text-foreground">{t("shop")}</h4>
             <ul className="mt-3 space-y-2">
               {shopLinks.map((link) => (
                 <li key={link.href}>
@@ -48,7 +51,7 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="text-sm font-semibold text-foreground">Info</h4>
+            <h4 className="text-sm font-semibold text-foreground">{t("info")}</h4>
             <ul className="mt-3 space-y-2">
               {infoLinks.map((link) => (
                 <li key={link.href}>
@@ -64,7 +67,7 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="text-sm font-semibold text-foreground">Account</h4>
+            <h4 className="text-sm font-semibold text-foreground">{t("account")}</h4>
             <ul className="mt-3 space-y-2">
               {accountLinks.map((link) => (
                 <li key={link.href}>
@@ -83,7 +86,7 @@ export function Footer() {
         <Separator className="my-8" />
 
         <p className="text-center text-sm text-muted-foreground">
-          &copy; {new Date().getFullYear()} Butchery. All rights reserved.
+          {t("copyright", { year: new Date().getFullYear() })}
         </p>
       </div>
     </footer>

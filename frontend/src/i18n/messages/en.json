@@ -1,0 +1,136 @@
+{
+  "metadata": {
+    "title": "Butchery - Fresh Halal Meats",
+    "description": "Premium halal meats, expertly cut and delivered fresh. Beef, lamb, poultry, sausages, and specialty cuts."
+  },
+  "common": {
+    "comingSoon": "This page is coming soon. Check back later.",
+    "backToHome": "Back to home"
+  },
+  "nav": {
+    "ourMeats": "Our Meats",
+    "specials": "Specials",
+    "about": "About",
+    "contact": "Contact",
+    "logIn": "Log in",
+    "signUp": "Sign up"
+  },
+  "hero": {
+    "tagline": "Premium Halal Meats",
+    "heading": "Fresh cuts, expertly prepared for your table",
+    "description": "Hand-selected halal beef, lamb, poultry, and more — cut to order and delivered fresh. Quality you can taste in every bite.",
+    "browseMeats": "Browse our meats",
+    "createAccount": "Create an account"
+  },
+  "categories": {
+    "heading": "Our Meats",
+    "description": "All our products are 100% halal certified, sourced from trusted farms, and prepared fresh daily.",
+    "beef": {
+      "name": "Beef",
+      "description": "Steaks, roasts, mince, and premium cuts from grass-fed cattle."
+    },
+    "lamb": {
+      "name": "Lamb",
+      "description": "Chops, shanks, racks, and whole legs — tender and full of flavour."
+    },
+    "poultry": {
+      "name": "Poultry",
+      "description": "Whole chickens, breasts, thighs, and wings — fresh and free-range."
+    },
+    "sausages": {
+      "name": "Sausages",
+      "description": "House-made sausages in classic and seasonal varieties."
+    },
+    "specialty": {
+      "name": "Specialty Cuts",
+      "description": "Marinated meats, kebab packs, and custom cuts prepared to order."
+    }
+  },
+  "specials": {
+    "heading": "Weekly Specials",
+    "description": "Fresh deals every week. Don't miss out on our hand-picked specials.",
+    "productImage": "Product image",
+    "lambShoulder": {
+      "name": "Lamb Shoulder Roast",
+      "tag": "Weekend Deal"
+    },
+    "chickenBreast": {
+      "name": "Chicken Breast Fillets",
+      "tag": "Popular"
+    },
+    "beefKebab": {
+      "name": "Beef Kebab Pack",
+      "tag": "New"
+    }
+  },
+  "howItWorks": {
+    "heading": "How It Works",
+    "description": "Ordering fresh meat has never been easier.",
+    "step1": {
+      "title": "Browse",
+      "description": "Explore our full range of halal meats, from everyday staples to specialty cuts."
+    },
+    "step2": {
+      "title": "Order",
+      "description": "Place your order online. Choose your preferred cuts, weights, and quantities."
+    },
+    "step3": {
+      "title": "Pickup or Delivery",
+      "description": "Collect in-store at your chosen time, or have it delivered fresh to your door."
+    }
+  },
+  "about": {
+    "heading": "Quality meat, honest service",
+    "paragraph1": "We believe great food starts with great ingredients. That is why we source only the finest halal meats, prepare them with care, and deliver them fresh to your family's table.",
+    "paragraph2": "Whether you are cooking a weeknight dinner or hosting a special gathering, we are here to provide the cuts you need with the quality you expect.",
+    "halalCertified": {
+      "title": "100% Halal Certified",
+      "description": "Every product meets strict halal standards, certified and traceable."
+    },
+    "responsiblySourced": {
+      "title": "Responsibly Sourced",
+      "description": "We partner with trusted farms that prioritise animal welfare and sustainability."
+    },
+    "expertButchers": {
+      "title": "Expert Butchers",
+      "description": "Our team brings decades of experience to every cut, every order."
+    }
+  },
+  "contact": {
+    "heading": "Visit Us",
+    "description": "Come in and see what's fresh today, or give us a call to place an order.",
+    "location": {
+      "title": "Location",
+      "line1": "Al Barsha, Dubai",
+      "line2": "United Arab Emirates"
+    },
+    "hours": {
+      "title": "Opening Hours",
+      "line1": "Mon–Fri: 7:00 AM – 6:00 PM",
+      "line2": "Sat: 7:00 AM – 4:00 PM",
+      "line3": "Sun: Closed"
+    },
+    "phone": {
+      "title": "Get in Touch",
+      "line1": "+971 4 123 4567",
+      "line2": "hello@butchery.ae"
+    }
+  },
+  "footer": {
+    "description": "Premium halal meats, expertly prepared and delivered fresh to your table.",
+    "shop": "Shop",
+    "shopOurMeats": "Our Meats",
+    "shopWeeklySpecials": "Weekly Specials",
+    "info": "Info",
+    "infoAboutUs": "About Us",
+    "infoContact": "Contact",
+    "account": "Account",
+    "copyright": "© {year} Butchery. All rights reserved."
+  },
+  "auth": {
+    "loginHeading": "Log in",
+    "registerHeading": "Create an account",
+    "adminLoginHeading": "Admin Login",
+    "adminTitle": "Admin Login - Butchery"
+  }
+}
