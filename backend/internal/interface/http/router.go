@@ -8,6 +8,8 @@ import (
 	"github.com/go-chi/chi/v5"
 	chimw "github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/cors"
+	httpSwagger "github.com/swaggo/http-swagger"
+
 	"github.com/katerji/butchery-app/backend/internal/interface/http/handler"
 	"github.com/katerji/butchery-app/backend/internal/interface/http/middleware"
 )
@@ -43,6 +45,10 @@ func NewRouter(deps RouterDeps) *chi.Mux {
 		w.WriteHeader(http.StatusOK)
 		_, _ = w.Write([]byte(`{"status":"ok"}`))
 	})
+
+	r.Get("/swagger/*", httpSwagger.Handler(
+		httpSwagger.URL("/swagger/doc.json"),
+	))
 
 	r.Route("/api/v1", func(r chi.Router) {
 		// Public customer auth routes

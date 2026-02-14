@@ -20,6 +20,17 @@ func NewAdminAuthHandler(loginHandler *commands.AdminLoginHandler) *AdminAuthHan
 }
 
 // Login handles POST /api/v1/admin/auth/login.
+//
+//	@Summary		Admin login
+//	@Description	Authenticate an admin with email and password. Returns JWT access and refresh tokens.
+//	@Tags			Admin Auth
+//	@Accept			json
+//	@Produce		json
+//	@Param			body	body		dto.LoginRequest			true	"Admin credentials"
+//	@Success		200		{object}	dto.LoginSuccessResponse		"Successful login"
+//	@Failure		400		{object}	dto.ErrorBody				"Invalid request body"
+//	@Failure		401		{object}	dto.ErrorBody				"Invalid credentials"
+//	@Router			/admin/auth/login [post]
 func (h *AdminAuthHandler) Login(w http.ResponseWriter, r *http.Request) {
 	var req dto.LoginRequest
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
