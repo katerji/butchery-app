@@ -27,6 +27,17 @@ func NewAuthHandler(
 }
 
 // Refresh handles POST /api/v1/auth/refresh.
+//
+//	@Summary		Refresh access token
+//	@Description	Exchange a valid refresh token for a new access token.
+//	@Tags			Auth
+//	@Accept			json
+//	@Produce		json
+//	@Param			body	body		dto.RefreshTokenRequest		true	"Refresh token"
+//	@Success		200		{object}	dto.RefreshSuccessResponse	"New access token"
+//	@Failure		400		{object}	dto.ErrorBody				"Invalid request body"
+//	@Failure		401		{object}	dto.ErrorBody				"Invalid or expired refresh token"
+//	@Router			/auth/refresh [post]
 func (h *AuthHandler) Refresh(w http.ResponseWriter, r *http.Request) {
 	var req dto.RefreshTokenRequest
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
@@ -54,6 +65,19 @@ func (h *AuthHandler) Refresh(w http.ResponseWriter, r *http.Request) {
 }
 
 // Logout handles POST /api/v1/auth/logout.
+//
+//	@Summary		Logout
+//	@Description	Revoke a refresh token, effectively logging the user out.
+//	@Tags			Auth
+//	@Accept			json
+//	@Produce		json
+//	@Security		BearerAuth
+//	@Param			body	body		dto.LogoutRequest	true	"Refresh token to revoke"
+//	@Success		204		"Successfully logged out"
+//	@Failure		400		{object}	dto.ErrorBody		"Invalid request body"
+//	@Failure		401		{object}	dto.ErrorBody		"Unauthorized"
+//	@Failure		500		{object}	dto.ErrorBody		"Internal server error"
+//	@Router			/auth/logout [post]
 func (h *AuthHandler) Logout(w http.ResponseWriter, r *http.Request) {
 	var req dto.LogoutRequest
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {

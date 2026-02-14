@@ -16,7 +16,21 @@ import (
 	"github.com/katerji/butchery-app/backend/internal/interface/http/handler"
 	"github.com/katerji/butchery-app/backend/internal/interface/http/middleware"
 	"github.com/katerji/butchery-app/backend/pkg/config"
+
+	_ "github.com/katerji/butchery-app/backend/docs"
 )
+
+//	@title			Butchery App API
+//	@version		1.0
+//	@description	REST API for the Butchery App — a halal butchery management application.
+
+//	@host		localhost:8080
+//	@BasePath	/api/v1
+
+//	@securityDefinitions.apikey	BearerAuth
+//	@in							header
+//	@name						Authorization
+//	@description				Enter your bearer token in the format: Bearer {token}
 
 func main() {
 	logger := slog.New(slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelInfo}))

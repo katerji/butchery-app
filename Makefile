@@ -1,4 +1,4 @@
-.PHONY: run test test-unit test-integration migrate lint docker-up docker-down
+.PHONY: run test test-unit test-integration migrate lint docker-up docker-down swagger
 
 # Start postgres + flyway, then run API locally
 run: docker-up
@@ -32,3 +32,7 @@ docker-up:
 # Stop all services
 docker-down:
 	docker compose down
+
+# Generate Swagger/OpenAPI docs
+swagger:
+	cd backend && swag init -g cmd/api/main.go -o docs --parseDependency --parseInternal

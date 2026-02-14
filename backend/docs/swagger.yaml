@@ -1,0 +1,262 @@
+basePath: /api/v1
+definitions:
+  github_com_katerji_butchery-app_backend_internal_interface_http_dto.ErrorBody:
+    properties:
+      data:
+        type: string
+      error:
+        type: string
+    type: object
+  github_com_katerji_butchery-app_backend_internal_interface_http_dto.LoginRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  github_com_katerji_butchery-app_backend_internal_interface_http_dto.LoginResponse:
+    properties:
+      access_token:
+        type: string
+      expires_in:
+        type: integer
+      refresh_token:
+        type: string
+    type: object
+  github_com_katerji_butchery-app_backend_internal_interface_http_dto.LoginSuccessResponse:
+    properties:
+      data:
+        $ref: '#/definitions/github_com_katerji_butchery-app_backend_internal_interface_http_dto.LoginResponse'
+      error:
+        type: string
+    type: object
+  github_com_katerji_butchery-app_backend_internal_interface_http_dto.LogoutRequest:
+    properties:
+      refresh_token:
+        type: string
+    type: object
+  github_com_katerji_butchery-app_backend_internal_interface_http_dto.RefreshSuccessResponse:
+    properties:
+      data:
+        $ref: '#/definitions/github_com_katerji_butchery-app_backend_internal_interface_http_dto.RefreshTokenResponse'
+      error:
+        type: string
+    type: object
+  github_com_katerji_butchery-app_backend_internal_interface_http_dto.RefreshTokenRequest:
+    properties:
+      refresh_token:
+        type: string
+    type: object
+  github_com_katerji_butchery-app_backend_internal_interface_http_dto.RefreshTokenResponse:
+    properties:
+      access_token:
+        type: string
+      expires_in:
+        type: integer
+    type: object
+  github_com_katerji_butchery-app_backend_internal_interface_http_dto.RegisterCustomerRequest:
+    properties:
+      email:
+        type: string
+      full_name:
+        type: string
+      password:
+        type: string
+      phone:
+        type: string
+    type: object
+  github_com_katerji_butchery-app_backend_internal_interface_http_dto.RegisterCustomerResponse:
+    properties:
+      email:
+        type: string
+      full_name:
+        type: string
+      id:
+        type: string
+    type: object
+  github_com_katerji_butchery-app_backend_internal_interface_http_dto.RegisterSuccessResponse:
+    properties:
+      data:
+        $ref: '#/definitions/github_com_katerji_butchery-app_backend_internal_interface_http_dto.RegisterCustomerResponse'
+      error:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: REST API for the Butchery App — a halal butchery management application.
+  title: Butchery App API
+  version: "1.0"
+paths:
+  /admin/auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Authenticate an admin with email and password. Returns JWT access
+        and refresh tokens.
+      parameters:
+      - description: Admin credentials
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_katerji_butchery-app_backend_internal_interface_http_dto.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successful login
+          schema:
+            $ref: '#/definitions/github_com_katerji_butchery-app_backend_internal_interface_http_dto.LoginSuccessResponse'
+        "400":
+          description: Invalid request body
+          schema:
+            $ref: '#/definitions/github_com_katerji_butchery-app_backend_internal_interface_http_dto.ErrorBody'
+        "401":
+          description: Invalid credentials
+          schema:
+            $ref: '#/definitions/github_com_katerji_butchery-app_backend_internal_interface_http_dto.ErrorBody'
+      summary: Admin login
+      tags:
+      - Admin Auth
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Authenticate a customer with email and password. Returns JWT access
+        and refresh tokens.
+      parameters:
+      - description: Customer credentials
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_katerji_butchery-app_backend_internal_interface_http_dto.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successful login
+          schema:
+            $ref: '#/definitions/github_com_katerji_butchery-app_backend_internal_interface_http_dto.LoginSuccessResponse'
+        "400":
+          description: Invalid request body
+          schema:
+            $ref: '#/definitions/github_com_katerji_butchery-app_backend_internal_interface_http_dto.ErrorBody'
+        "401":
+          description: Invalid credentials
+          schema:
+            $ref: '#/definitions/github_com_katerji_butchery-app_backend_internal_interface_http_dto.ErrorBody'
+      summary: Customer login
+      tags:
+      - Customer Auth
+  /auth/logout:
+    post:
+      consumes:
+      - application/json
+      description: Revoke a refresh token, effectively logging the user out.
+      parameters:
+      - description: Refresh token to revoke
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_katerji_butchery-app_backend_internal_interface_http_dto.LogoutRequest'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: Successfully logged out
+        "400":
+          description: Invalid request body
+          schema:
+            $ref: '#/definitions/github_com_katerji_butchery-app_backend_internal_interface_http_dto.ErrorBody'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_katerji_butchery-app_backend_internal_interface_http_dto.ErrorBody'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/github_com_katerji_butchery-app_backend_internal_interface_http_dto.ErrorBody'
+      security:
+      - BearerAuth: []
+      summary: Logout
+      tags:
+      - Auth
+  /auth/refresh:
+    post:
+      consumes:
+      - application/json
+      description: Exchange a valid refresh token for a new access token.
+      parameters:
+      - description: Refresh token
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_katerji_butchery-app_backend_internal_interface_http_dto.RefreshTokenRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: New access token
+          schema:
+            $ref: '#/definitions/github_com_katerji_butchery-app_backend_internal_interface_http_dto.RefreshSuccessResponse'
+        "400":
+          description: Invalid request body
+          schema:
+            $ref: '#/definitions/github_com_katerji_butchery-app_backend_internal_interface_http_dto.ErrorBody'
+        "401":
+          description: Invalid or expired refresh token
+          schema:
+            $ref: '#/definitions/github_com_katerji_butchery-app_backend_internal_interface_http_dto.ErrorBody'
+      summary: Refresh access token
+      tags:
+      - Auth
+  /auth/register:
+    post:
+      consumes:
+      - application/json
+      description: Create a new customer account. Returns the created customer's ID,
+        email, and full name.
+      parameters:
+      - description: Customer registration details
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_katerji_butchery-app_backend_internal_interface_http_dto.RegisterCustomerRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Customer created
+          schema:
+            $ref: '#/definitions/github_com_katerji_butchery-app_backend_internal_interface_http_dto.RegisterSuccessResponse'
+        "400":
+          description: Missing required fields
+          schema:
+            $ref: '#/definitions/github_com_katerji_butchery-app_backend_internal_interface_http_dto.ErrorBody'
+        "409":
+          description: Email already exists
+          schema:
+            $ref: '#/definitions/github_com_katerji_butchery-app_backend_internal_interface_http_dto.ErrorBody'
+        "422":
+          description: Validation error
+          schema:
+            $ref: '#/definitions/github_com_katerji_butchery-app_backend_internal_interface_http_dto.ErrorBody'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/github_com_katerji_butchery-app_backend_internal_interface_http_dto.ErrorBody'
+      summary: Register customer
+      tags:
+      - Customer Auth
+securityDefinitions:
+  BearerAuth:
+    description: 'Enter your bearer token in the format: Bearer {token}'
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
