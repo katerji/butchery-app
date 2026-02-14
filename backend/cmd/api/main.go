@@ -7,6 +7,8 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/joho/godotenv"
+
 	admincmd "github.com/katerji/butchery-app/backend/internal/application/admin/commands"
 	authcmd "github.com/katerji/butchery-app/backend/internal/application/auth/commands"
 	custcmd "github.com/katerji/butchery-app/backend/internal/application/customer/commands"
@@ -34,6 +36,10 @@ import (
 
 func main() {
 	logger := slog.New(slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelInfo}))
+
+	if err := godotenv.Load("../.env", ".env"); err != nil {
+		logger.Info("no .env file loaded", slog.String("detail", err.Error()))
+	}
 
 	cfg, err := config.Load()
 	if err != nil {
