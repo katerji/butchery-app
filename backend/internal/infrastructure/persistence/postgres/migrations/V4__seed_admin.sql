@@ -3,4 +3,4 @@ INSERT INTO admins (id, email, password_hash, full_name) VALUES (
     'admin@butchery.com',
     '$2a$10$d289JaI7YejP3oQ0vOitNefGHndET66ybc9tDxQ.hDZ4DLWustUm.',
     'Butchery Admin'
-);
+) ON CONFLICT (email) DO NOTHING;

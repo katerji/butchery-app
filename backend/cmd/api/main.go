@@ -46,10 +46,10 @@ func main() {
 	tokenService := infraauth.NewTokenService(cfg.JWT.Secret, cfg.JWT.AccessTokenTTL)
 
 	// Use case handlers
-	adminLoginHandler := admincmd.NewAdminLoginHandler(adminRepo, passwordHasher, tokenService, refreshTokenRepo)
+	adminLoginHandler := admincmd.NewAdminLoginHandler(adminRepo, passwordHasher, tokenService, refreshTokenRepo, cfg.JWT.AccessTokenTTL)
 	registerCustomerHandler := custcmd.NewRegisterCustomerHandler(customerRepo, passwordHasher)
-	customerLoginHandler := custcmd.NewCustomerLoginHandler(customerRepo, passwordHasher, tokenService, refreshTokenRepo)
-	refreshTokenHandler := authcmd.NewRefreshTokenHandler(refreshTokenRepo, tokenService)
+	customerLoginHandler := custcmd.NewCustomerLoginHandler(customerRepo, passwordHasher, tokenService, refreshTokenRepo, cfg.JWT.AccessTokenTTL)
+	refreshTokenHandler := authcmd.NewRefreshTokenHandler(refreshTokenRepo, tokenService, cfg.JWT.AccessTokenTTL)
 	logoutHandler := authcmd.NewLogoutHandler(refreshTokenRepo)
 
 	// HTTP handlers

@@ -83,7 +83,7 @@ func TestRefreshToken_ValidToken_ReturnsNewAccessToken(t *testing.T) {
 	refreshRepo.On("FindByTokenHash", mock.Anything, mock.AnythingOfType("string")).Return(storedToken, nil)
 	tokenGen.On("GenerateAccessToken", subjectID, "customer").Return("new-access-token", nil)
 
-	handler := commands.NewRefreshTokenHandler(refreshRepo, tokenGen)
+	handler := commands.NewRefreshTokenHandler(refreshRepo, tokenGen, 15*time.Minute)
 	result, err := handler.Handle(context.Background(), commands.RefreshTokenCommand{
 		RefreshToken: "raw-refresh-token",
 	})
@@ -105,7 +105,7 @@ func TestRefreshToken_ExpiredToken_ReturnsError(t *testing.T) {
 
 	refreshRepo.On("FindByTokenHash", mock.Anything, mock.AnythingOfType("string")).Return(storedToken, nil)
 
-	handler := commands.NewRefreshTokenHandler(refreshRepo, tokenGen)
+	handler := commands.NewRefreshTokenHandler(refreshRepo, tokenGen, 15*time.Minute)
 	_, err := handler.Handle(context.Background(), commands.RefreshTokenCommand{
 		RefreshToken: "raw-refresh-token",
 	})
@@ -119,7 +119,7 @@ func TestRefreshToken_UnknownToken_ReturnsError(t *testing.T) {
 
 	refreshRepo.On("FindByTokenHash", mock.Anything, mock.AnythingOfType("string")).Return(nil, auth.ErrRefreshTokenNotFound)
 
-	handler := commands.NewRefreshTokenHandler(refreshRepo, tokenGen)
+	handler := commands.NewRefreshTokenHandler(refreshRepo, tokenGen, 15*time.Minute)
 	_, err := handler.Handle(context.Background(), commands.RefreshTokenCommand{
 		RefreshToken: "unknown-token",
 	})

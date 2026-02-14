@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"testing"
+	"time"
 
 	"github.com/google/uuid"
 	"github.com/katerji/butchery-app/backend/internal/application/customer/commands"
@@ -30,7 +31,7 @@ func TestCustomerLogin_ValidCredentials_ReturnsTokens(t *testing.T) {
 	tokenGen.On("GenerateRefreshToken").Return("refresh-token-raw", nil)
 	refreshRepo.On("Save", mock.Anything, mock.Anything).Return(nil)
 
-	handler := commands.NewCustomerLoginHandler(custRepo, hasher, tokenGen, refreshRepo)
+	handler := commands.NewCustomerLoginHandler(custRepo, hasher, tokenGen, refreshRepo, 15*time.Minute)
 	result, err := handler.Handle(context.Background(), commands.CustomerLoginCommand{
 		Email:    "user@example.com",
 		Password: "password123",
@@ -51,7 +52,7 @@ func TestCustomerLogin_CustomerNotFound_ReturnsError(t *testing.T) {
 	email, _ := customer.NewEmail("unknown@example.com")
 	custRepo.On("FindByEmail", mock.Anything, email).Return(nil, customer.ErrCustomerNotFound)
 
-	handler := commands.NewCustomerLoginHandler(custRepo, hasher, tokenGen, refreshRepo)
+	handler := commands.NewCustomerLoginHandler(custRepo, hasher, tokenGen, refreshRepo, 15*time.Minute)
 	_, err := handler.Handle(context.Background(), commands.CustomerLoginCommand{
 		Email:    "unknown@example.com",
 		Password: "password123",
@@ -74,7 +75,7 @@ func TestCustomerLogin_WrongPassword_ReturnsError(t *testing.T) {
 	custRepo.On("FindByEmail", mock.Anything, email).Return(c, nil)
 	hasher.On("Compare", "$2a$10$hash", "wrongpassword").Return(errors.New("mismatch"))
 
-	handler := commands.NewCustomerLoginHandler(custRepo, hasher, tokenGen, refreshRepo)
+	handler := commands.NewCustomerLoginHandler(custRepo, hasher, tokenGen, refreshRepo, 15*time.Minute)
 	_, err := handler.Handle(context.Background(), commands.CustomerLoginCommand{
 		Email:    "user@example.com",
 		Password: "wrongpassword",

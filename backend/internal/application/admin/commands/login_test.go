@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"testing"
+	"time"
 
 	"github.com/google/uuid"
 	"github.com/katerji/butchery-app/backend/internal/application/admin/commands"
@@ -108,7 +109,7 @@ func TestAdminLogin_ValidCredentials_ReturnsTokens(t *testing.T) {
 	tokenGen.On("GenerateRefreshToken").Return("refresh-token-raw", nil)
 	refreshRepo.On("Save", mock.Anything, mock.AnythingOfType("*auth.RefreshToken")).Return(nil)
 
-	handler := commands.NewAdminLoginHandler(adminRepo, hasher, tokenGen, refreshRepo)
+	handler := commands.NewAdminLoginHandler(adminRepo, hasher, tokenGen, refreshRepo, 15*time.Minute)
 	result, err := handler.Handle(context.Background(), commands.AdminLoginCommand{
 		Email:    "admin@butchery.com",
 		Password: "password123",
@@ -132,7 +133,7 @@ func TestAdminLogin_AdminNotFound_ReturnsError(t *testing.T) {
 
 	adminRepo.On("FindByEmail", mock.Anything, "unknown@butchery.com").Return(nil, admin.ErrAdminNotFound)
 
-	handler := commands.NewAdminLoginHandler(adminRepo, hasher, tokenGen, refreshRepo)
+	handler := commands.NewAdminLoginHandler(adminRepo, hasher, tokenGen, refreshRepo, 15*time.Minute)
 	_, err := handler.Handle(context.Background(), commands.AdminLoginCommand{
 		Email:    "unknown@butchery.com",
 		Password: "password123",
@@ -153,7 +154,7 @@ func TestAdminLogin_WrongPassword_ReturnsError(t *testing.T) {
 	adminRepo.On("FindByEmail", mock.Anything, "admin@butchery.com").Return(a, nil)
 	hasher.On("Compare", "$2a$10$hash", "wrongpassword").Return(errors.New("mismatch"))
 
-	handler := commands.NewAdminLoginHandler(adminRepo, hasher, tokenGen, refreshRepo)
+	handler := commands.NewAdminLoginHandler(adminRepo, hasher, tokenGen, refreshRepo, 15*time.Minute)
 	_, err := handler.Handle(context.Background(), commands.AdminLoginCommand{
 		Email:    "admin@butchery.com",
 		Password: "wrongpassword",

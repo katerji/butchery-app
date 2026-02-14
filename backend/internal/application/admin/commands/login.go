@@ -22,10 +22,11 @@ type AdminLoginCommand struct {
 
 // AdminLoginHandler handles admin login.
 type AdminLoginHandler struct {
-	adminRepo    admin.Repository
-	hasher       domainauth.PasswordHasher
-	tokenGen     domainauth.TokenGenerator
-	refreshRepo  domainauth.RefreshTokenRepository
+	adminRepo       admin.Repository
+	hasher          domainauth.PasswordHasher
+	tokenGen        domainauth.TokenGenerator
+	refreshRepo     domainauth.RefreshTokenRepository
+	accessTokenTTL  time.Duration
 }
 
 // NewAdminLoginHandler creates a new AdminLoginHandler with its dependencies.
@@ -34,12 +35,14 @@ func NewAdminLoginHandler(
 	hasher domainauth.PasswordHasher,
 	tokenGen domainauth.TokenGenerator,
 	refreshRepo domainauth.RefreshTokenRepository,
+	accessTokenTTL time.Duration,
 ) *AdminLoginHandler {
 	return &AdminLoginHandler{
-		adminRepo:   adminRepo,
-		hasher:      hasher,
-		tokenGen:    tokenGen,
-		refreshRepo: refreshRepo,
+		adminRepo:      adminRepo,
+		hasher:         hasher,
+		tokenGen:       tokenGen,
+		refreshRepo:    refreshRepo,
+		accessTokenTTL: accessTokenTTL,
 	}
 }
 
@@ -79,7 +82,7 @@ func (h *AdminLoginHandler) Handle(ctx context.Context, cmd AdminLoginCommand) (
 	return &auth.LoginResult{
 		AccessToken:  accessToken,
 		RefreshToken: rawRefresh,
-		ExpiresIn:    int64(15 * time.Minute / time.Second),
+		ExpiresIn:    int64(h.accessTokenTTL / time.Second),
 	}, nil
 }
 

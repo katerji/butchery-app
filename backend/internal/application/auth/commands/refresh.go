@@ -18,18 +18,21 @@ type RefreshTokenCommand struct {
 
 // RefreshTokenHandler handles refreshing access tokens.
 type RefreshTokenHandler struct {
-	refreshRepo auth.RefreshTokenRepository
-	tokenGen    auth.TokenGenerator
+	refreshRepo    auth.RefreshTokenRepository
+	tokenGen       auth.TokenGenerator
+	accessTokenTTL time.Duration
 }
 
 // NewRefreshTokenHandler creates a new RefreshTokenHandler.
 func NewRefreshTokenHandler(
 	refreshRepo auth.RefreshTokenRepository,
 	tokenGen auth.TokenGenerator,
+	accessTokenTTL time.Duration,
 ) *RefreshTokenHandler {
 	return &RefreshTokenHandler{
-		refreshRepo: refreshRepo,
-		tokenGen:    tokenGen,
+		refreshRepo:    refreshRepo,
+		tokenGen:       tokenGen,
+		accessTokenTTL: accessTokenTTL,
 	}
 }
 
@@ -53,7 +56,7 @@ func (h *RefreshTokenHandler) Handle(ctx context.Context, cmd RefreshTokenComman
 
 	return &appauth.RefreshTokenResult{
 		AccessToken: accessToken,
-		ExpiresIn:   int64(15 * time.Minute / time.Second),
+		ExpiresIn:   int64(h.accessTokenTTL / time.Second),
 	}, nil
 }
 

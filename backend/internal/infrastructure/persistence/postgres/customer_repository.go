@@ -7,6 +7,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgconn"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/katerji/butchery-app/backend/internal/domain/customer"
 )
@@ -30,6 +31,10 @@ func (r *CustomerRepository) Save(ctx context.Context, c *customer.Customer) err
 		c.CreatedAt(), c.UpdatedAt(),
 	)
 	if err != nil {
+		var pgErr *pgconn.PgError
+		if errors.As(err, &pgErr) && pgErr.Code == "23505" {
+			return customer.ErrEmailAlreadyExists
+		}
 		return fmt.Errorf("inserting customer: %w", err)
 	}
 	return nil

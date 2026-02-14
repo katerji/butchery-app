@@ -22,10 +22,11 @@ type CustomerLoginCommand struct {
 
 // CustomerLoginHandler handles customer login.
 type CustomerLoginHandler struct {
-	customerRepo customer.Repository
-	hasher       domainauth.PasswordHasher
-	tokenGen     domainauth.TokenGenerator
-	refreshRepo  domainauth.RefreshTokenRepository
+	customerRepo   customer.Repository
+	hasher         domainauth.PasswordHasher
+	tokenGen       domainauth.TokenGenerator
+	refreshRepo    domainauth.RefreshTokenRepository
+	accessTokenTTL time.Duration
 }
 
 // NewCustomerLoginHandler creates a new CustomerLoginHandler.
@@ -34,12 +35,14 @@ func NewCustomerLoginHandler(
 	hasher domainauth.PasswordHasher,
 	tokenGen domainauth.TokenGenerator,
 	refreshRepo domainauth.RefreshTokenRepository,
+	accessTokenTTL time.Duration,
 ) *CustomerLoginHandler {
 	return &CustomerLoginHandler{
-		customerRepo: customerRepo,
-		hasher:       hasher,
-		tokenGen:     tokenGen,
-		refreshRepo:  refreshRepo,
+		customerRepo:   customerRepo,
+		hasher:         hasher,
+		tokenGen:       tokenGen,
+		refreshRepo:    refreshRepo,
+		accessTokenTTL: accessTokenTTL,
 	}
 }
 
@@ -84,7 +87,7 @@ func (h *CustomerLoginHandler) Handle(ctx context.Context, cmd CustomerLoginComm
 	return &auth.LoginResult{
 		AccessToken:  accessToken,
 		RefreshToken: rawRefresh,
-		ExpiresIn:    int64(15 * time.Minute / time.Second),
+		ExpiresIn:    int64(h.accessTokenTTL / time.Second),
 	}, nil
 }
 

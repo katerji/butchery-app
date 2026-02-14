@@ -37,4 +37,5 @@ func TestLogout_NonExistentToken_NoError(t *testing.T) {
 
 	// Logout is idempotent — no error even if token was already deleted
 	assert.NoError(t, err)
+	refreshRepo.AssertExpectations(t)
 }

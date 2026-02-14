@@ -2,6 +2,7 @@ package config
 
 import (
 	"fmt"
+	"net/url"
 	"time"
 
 	"github.com/caarlos0/env/v11"
@@ -22,8 +23,14 @@ type DBConfig struct {
 }
 
 func (c DBConfig) DSN() string {
-	return fmt.Sprintf("postgres://%s:%s@%s:%d/%s?sslmode=disable",
-		c.User, c.Password, c.Host, c.Port, c.Name)
+	u := &url.URL{
+		Scheme:   "postgres",
+		User:     url.UserPassword(c.User, c.Password),
+		Host:     fmt.Sprintf("%s:%d", c.Host, c.Port),
+		Path:     c.Name,
+		RawQuery: "sslmode=disable",
+	}
+	return u.String()
 }
 
 type JWTConfig struct {
@@ -40,6 +47,9 @@ func Load() (*Config, error) {
 	cfg := &Config{}
 	if err := env.Parse(cfg); err != nil {
 		return nil, fmt.Errorf("parsing config: %w", err)
+	}
+	if cfg.JWT.Secret == "" || cfg.JWT.Secret == "change-me-to-a-secure-random-string" {
+		return nil, fmt.Errorf("JWT_SECRET must be set to a secure value")
 	}
 	return cfg, nil
 }
