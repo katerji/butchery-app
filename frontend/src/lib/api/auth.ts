@@ -13,7 +13,7 @@ export interface RegisterResponse {
 }
 
 export function registerCustomer(data: RegisterRequest): Promise<RegisterResponse> {
-  return apiClient<RegisterResponse>("/api/v1/auth/register", {
+  return apiClient<RegisterResponse>("/auth/register", {
     method: "POST",
     body: JSON.stringify(data),
   });
