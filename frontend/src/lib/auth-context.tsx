@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState, useEffect, useCallback } from "react";
+import { createContext, useContext, useState, useCallback } from "react";
 import type { ReactNode } from "react";
 
 interface AuthTokens {
@@ -21,22 +21,16 @@ const AuthContext = createContext<AuthContextValue | null>(null);
 const ACCESS_TOKEN_KEY = "access_token";
 const REFRESH_TOKEN_KEY = "refresh_token";
 
-export function AuthProvider({ children }: { children: ReactNode }) {
-  const [accessToken, setAccessToken] = useState<string | null>(null);
-  const [refreshToken, setRefreshToken] = useState<string | null>(null);
-  const [loaded, setLoaded] = useState(false);
+function getStoredToken(key: string): string | null {
+  if (typeof window === "undefined") {
+    return null;
+  }
+  return localStorage.getItem(key);
+}
 
-  useEffect(() => {
-    const storedAccess = localStorage.getItem(ACCESS_TOKEN_KEY);
-    const storedRefresh = localStorage.getItem(REFRESH_TOKEN_KEY);
-    if (storedAccess) {
-      setAccessToken(storedAccess);
-    }
-    if (storedRefresh) {
-      setRefreshToken(storedRefresh);
-    }
-    setLoaded(true);
-  }, []);
+export function AuthProvider({ children }: { children: ReactNode }) {
+  const [accessToken, setAccessToken] = useState<string | null>(() => getStoredToken(ACCESS_TOKEN_KEY));
+  const [refreshToken, setRefreshToken] = useState<string | null>(() => getStoredToken(REFRESH_TOKEN_KEY));
 
   const login = useCallback((tokens: AuthTokens) => {
     localStorage.setItem(ACCESS_TOKEN_KEY, tokens.access_token);
@@ -51,10 +45,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setAccessToken(null);
     setRefreshToken(null);
   }, []);
-
-  if (!loaded) {
-    return null;
-  }
 
   return (
     <AuthContext.Provider
