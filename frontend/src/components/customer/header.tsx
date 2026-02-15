@@ -3,13 +3,25 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import { useRouter } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { LanguageSwitcher } from "@/components/language-switcher";
-import { Menu, X } from "lucide-react";
+import { Menu, X, User, LayoutDashboard, LogOut } from "lucide-react";
+import { useAuth } from "@/lib/auth-context";
+import { logoutCustomer } from "@/lib/api/auth";
 
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const t = useTranslations("nav");
+  const router = useRouter();
+  const { isAuthenticated, accessToken, refreshToken, logout } = useAuth();
 
   const navLinks = [
     { href: "#categories", label: t("ourMeats") },
@@ -17,6 +29,14 @@ export function Header() {
     { href: "#about", label: t("about") },
     { href: "#contact", label: t("contact") },
   ];
+
+  async function handleLogout() {
+    if (accessToken && refreshToken) {
+      await logoutCustomer(accessToken, refreshToken);
+    }
+    logout();
+    router.push("/?logged_out=true");
+  }
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-md">
@@ -37,12 +57,38 @@ export function Header() {
           ))}
           <div className="flex items-center gap-3">
             <LanguageSwitcher />
-            <Button variant="ghost" size="sm" asChild>
-              <Link href="/login">{t("logIn")}</Link>
-            </Button>
-            <Button size="sm" asChild>
-              <Link href="/register">{t("signUp")}</Link>
-            </Button>
+            {isAuthenticated ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="sm">
+                    <User className="size-4" />
+                    {t("myAccount")}
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem asChild>
+                    <Link href="/dashboard">
+                      <LayoutDashboard className="size-4" />
+                      {t("dashboard")}
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleLogout}>
+                    <LogOut className="size-4" />
+                    {t("logOut")}
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <>
+                <Button variant="ghost" size="sm" asChild>
+                  <Link href="/login">{t("logIn")}</Link>
+                </Button>
+                <Button size="sm" asChild>
+                  <Link href="/register">{t("signUp")}</Link>
+                </Button>
+              </>
+            )}
           </div>
         </nav>
 
@@ -73,12 +119,36 @@ export function Header() {
             ))}
             <div className="flex flex-col gap-2 pt-2">
               <LanguageSwitcher />
-              <Button variant="ghost" size="sm" asChild>
-                <Link href="/login">{t("logIn")}</Link>
-              </Button>
-              <Button size="sm" asChild>
-                <Link href="/register">{t("signUp")}</Link>
-              </Button>
+              {isAuthenticated ? (
+                <>
+                  <Button variant="ghost" size="sm" asChild>
+                    <Link href="/dashboard" onClick={() => setMobileOpen(false)}>
+                      <LayoutDashboard className="size-4" />
+                      {t("dashboard")}
+                    </Link>
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => {
+                      setMobileOpen(false);
+                      handleLogout();
+                    }}
+                  >
+                    <LogOut className="size-4" />
+                    {t("logOut")}
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button variant="ghost" size="sm" asChild>
+                    <Link href="/login">{t("logIn")}</Link>
+                  </Button>
+                  <Button size="sm" asChild>
+                    <Link href="/register">{t("signUp")}</Link>
+                  </Button>
+                </>
+              )}
             </div>
           </div>
         </nav>

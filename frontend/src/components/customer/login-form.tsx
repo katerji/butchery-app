@@ -25,17 +25,21 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Link } from "@/i18n/navigation";
-import { registerCustomer } from "@/lib/api/auth";
+import { loginCustomer } from "@/lib/api/auth";
 import { ApiError } from "@/lib/api/client";
-import { UAE_MOBILE_REGEX, type RegisterFormValues } from "@/lib/validations/register";
 import { useAuth } from "@/lib/auth-context";
 
-export function RegisterForm() {
-  const t = useTranslations("auth.register");
+interface LoginFormValues {
+  email: string;
+  password: string;
+}
+
+export function LoginForm() {
+  const t = useTranslations("auth.login");
   const tAuth = useTranslations("auth");
   const locale = useLocale();
   const router = useRouter();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, login } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
 
@@ -46,30 +50,27 @@ export function RegisterForm() {
   }, [isAuthenticated, router]);
 
   const schema = z.object({
-    full_name: z.string().min(1, t("fullNameRequired")),
     email: z.string().min(1, t("emailRequired")).email(t("emailInvalid")),
-    phone: z.string().min(1, t("phoneRequired")).regex(UAE_MOBILE_REGEX, t("phoneInvalid")),
-    password: z.string().min(8, t("passwordMinLength")),
+    password: z.string().min(1, t("passwordRequired")),
   });
 
-  const form = useForm<RegisterFormValues>({
+  const form = useForm<LoginFormValues>({
     resolver: zodResolver(schema),
     defaultValues: {
-      full_name: "",
       email: "",
-      phone: "",
       password: "",
     },
   });
 
-  async function onSubmit(values: RegisterFormValues) {
+  async function onSubmit(values: LoginFormValues) {
     setServerError(null);
     try {
-      await registerCustomer(values);
-      router.push("/login?registered=true");
+      const tokens = await loginCustomer(values);
+      login(tokens);
+      router.push("/dashboard");
     } catch (error) {
-      if (error instanceof ApiError && error.status === 409) {
-        setServerError(t("emailAlreadyExists"));
+      if (error instanceof ApiError && error.status === 401) {
+        setServerError(t("invalidCredentials"));
       } else {
         setServerError(t("serverError"));
       }
@@ -79,7 +80,7 @@ export function RegisterForm() {
   return (
     <Card className="w-full max-w-md">
       <CardHeader>
-        <CardTitle className="font-serif text-2xl">{tAuth("registerHeading")}</CardTitle>
+        <CardTitle className="font-serif text-2xl">{tAuth("loginHeading")}</CardTitle>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -89,20 +90,6 @@ export function RegisterForm() {
                 {serverError}
               </div>
             )}
-
-            <FormField
-              control={form.control}
-              name="full_name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{t("fullNameLabel")}</FormLabel>
-                  <FormControl>
-                    <Input placeholder={t("fullNamePlaceholder")} {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
 
             <FormField
               control={form.control}
@@ -125,29 +112,19 @@ export function RegisterForm() {
 
             <FormField
               control={form.control}
-              name="phone"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{t("phoneLabel")}</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="tel"
-                      placeholder={t("phonePlaceholder")}
-                      dir="ltr"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{t("passwordLabel")}</FormLabel>
+                  <div className="flex items-center justify-between">
+                    <FormLabel>{t("passwordLabel")}</FormLabel>
+                    <Link
+                      href="/forgot-password"
+                      className="text-xs text-muted-foreground underline-offset-4 hover:underline"
+                      tabIndex={-1}
+                    >
+                      {t("forgotPassword")}
+                    </Link>
+                  </div>
                   <FormControl>
                     <div className="relative">
                       <Input
@@ -199,9 +176,9 @@ export function RegisterForm() {
       </CardContent>
       <CardFooter className="justify-center">
         <p className="text-sm text-muted-foreground">
-          {t("haveAccount")}{" "}
-          <Link href="/login" className="text-primary underline-offset-4 hover:underline">
-            {t("logIn")}
+          {t("noAccount")}{" "}
+          <Link href="/register" className="text-primary underline-offset-4 hover:underline">
+            {t("signUp")}
           </Link>
         </p>
       </CardFooter>

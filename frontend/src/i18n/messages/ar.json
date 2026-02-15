@@ -13,7 +13,10 @@
     "about": "من نحن",
     "contact": "اتصل بنا",
     "logIn": "تسجيل الدخول",
-    "signUp": "إنشاء حساب"
+    "signUp": "إنشاء حساب",
+    "myAccount": "حسابي",
+    "dashboard": "لوحة التحكم",
+    "logOut": "تسجيل الخروج"
   },
   "hero": {
     "tagline": "لحوم حلال فاخرة",
@@ -155,6 +158,23 @@
       "haveAccount": "لديك حساب بالفعل؟",
       "logIn": "تسجيل الدخول"
     },
-    "registrationSuccess": "تم إنشاء الحساب بنجاح. يرجى تسجيل الدخول."
+    "registrationSuccess": "تم إنشاء الحساب بنجاح. يرجى تسجيل الدخول.",
+    "logoutSuccess": "تم تسجيل الخروج بنجاح.",
+    "login": {
+      "emailLabel": "البريد الإلكتروني",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "كلمة المرور",
+      "passwordPlaceholder": "أدخل كلمة المرور",
+      "emailRequired": "البريد الإلكتروني مطلوب",
+      "emailInvalid": "يرجى إدخال بريد إلكتروني صالح",
+      "passwordRequired": "كلمة المرور مطلوبة",
+      "submit": "تسجيل الدخول",
+      "submitting": "جارٍ تسجيل الدخول...",
+      "invalidCredentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة",
+      "serverError": "حدث خطأ. يرجى المحاولة مرة أخرى.",
+      "forgotPassword": "نسيت كلمة المرور؟",
+      "noAccount": "ليس لديك حساب؟",
+      "signUp": "إنشاء حساب"
+    }
   }
 }

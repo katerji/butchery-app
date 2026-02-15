@@ -1,10 +1,14 @@
+"use client";
+
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Separator } from "@/components/ui/separator";
+import { useAuth } from "@/lib/auth-context";
 
 export function Footer() {
   const t = useTranslations("footer");
   const tNav = useTranslations("nav");
+  const { isAuthenticated } = useAuth();
 
   const shopLinks = [
     { href: "#categories", label: t("shopOurMeats") },
@@ -16,10 +20,14 @@ export function Footer() {
     { href: "#contact", label: t("infoContact") },
   ];
 
-  const accountLinks = [
-    { href: "/login" as const, label: tNav("logIn") },
-    { href: "/register" as const, label: tNav("signUp") },
-  ];
+  const accountLinks = isAuthenticated
+    ? [
+        { href: "/dashboard" as const, label: tNav("dashboard") },
+      ]
+    : [
+        { href: "/login" as const, label: tNav("logIn") },
+        { href: "/register" as const, label: tNav("signUp") },
+      ];
 
   return (
     <footer className="border-t border-border/50 bg-muted/30">

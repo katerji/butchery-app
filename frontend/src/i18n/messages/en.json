@@ -13,7 +13,10 @@
     "about": "About",
     "contact": "Contact",
     "logIn": "Log in",
-    "signUp": "Sign up"
+    "signUp": "Sign up",
+    "myAccount": "My Account",
+    "dashboard": "Dashboard",
+    "logOut": "Log out"
   },
   "hero": {
     "tagline": "Premium Halal Meats",
@@ -155,6 +158,23 @@
       "haveAccount": "Already have an account?",
       "logIn": "Log in"
     },
-    "registrationSuccess": "Account created successfully. Please log in."
+    "registrationSuccess": "Account created successfully. Please log in.",
+    "logoutSuccess": "You have been logged out successfully.",
+    "login": {
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Enter your password",
+      "emailRequired": "Email is required",
+      "emailInvalid": "Please enter a valid email address",
+      "passwordRequired": "Password is required",
+      "submit": "Log in",
+      "submitting": "Logging in...",
+      "invalidCredentials": "Invalid email or password",
+      "serverError": "Something went wrong. Please try again.",
+      "forgotPassword": "Forgot password?",
+      "noAccount": "Don't have an account?",
+      "signUp": "Sign up"
+    }
   }
 }
