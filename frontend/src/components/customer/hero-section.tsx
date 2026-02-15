@@ -1,16 +1,31 @@
+"use client";
+
 import { useTranslations, useLocale } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ArrowLeft } from "lucide-react";
+import { SuccessBanner } from "@/components/customer/success-banner";
+import { useAuth } from "@/lib/auth-context";
 
-export function HeroSection() {
+interface HeroSectionProps {
+  showLogoutBanner?: boolean;
+}
+
+export function HeroSection({ showLogoutBanner = false }: HeroSectionProps) {
   const t = useTranslations("hero");
   const locale = useLocale();
+  const { isAuthenticated } = useAuth();
   const Arrow = locale === "ar" ? ArrowLeft : ArrowRight;
 
   return (
     <section className="relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent" />
+
+      {showLogoutBanner && (
+        <div className="relative mx-6 max-w-md pt-6 sm:mx-auto">
+          <SuccessBanner messageKey="auth.logoutSuccess" />
+        </div>
+      )}
 
       <div className="relative mx-auto flex min-h-[calc(100vh-4rem)] max-w-7xl flex-col items-center justify-center px-6 py-24 text-center">
         <p className="text-sm font-medium uppercase tracking-widest text-primary">
@@ -26,15 +41,17 @@ export function HeroSection() {
         </p>
 
         <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-          <Button size="lg" asChild>
+          <Button size="lg" className={isAuthenticated ? "px-12" : ""} asChild>
             <a href="#categories">
               {t("browseMeats")}
               <Arrow className="size-4" />
             </a>
           </Button>
-          <Button variant="outline" size="lg" asChild>
-            <Link href="/register">{t("createAccount")}</Link>
-          </Button>
+          {!isAuthenticated && (
+            <Button variant="outline" size="lg" asChild>
+              <Link href="/register">{t("createAccount")}</Link>
+            </Button>
+          )}
         </div>
       </div>
     </section>
