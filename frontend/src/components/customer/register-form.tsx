@@ -39,16 +39,6 @@ export function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      router.replace("/dashboard");
-    }
-  }, [isAuthenticated, router]);
-
-  if (isAuthenticated) {
-    return null;
-  }
-
   const schema = z.object({
     full_name: z.string().min(1, t("fullNameRequired")),
     email: z.string().min(1, t("emailRequired")).email(t("emailInvalid")),
@@ -65,6 +55,16 @@ export function RegisterForm() {
       password: "",
     },
   });
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      router.replace("/dashboard");
+    }
+  }, [isAuthenticated, router]);
+
+  if (isAuthenticated) {
+    return null;
+  }
 
   async function onSubmit(values: RegisterFormValues) {
     setServerError(null);
