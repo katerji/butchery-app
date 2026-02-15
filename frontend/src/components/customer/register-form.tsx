@@ -45,6 +45,10 @@ export function RegisterForm() {
     }
   }, [isAuthenticated, router]);
 
+  if (isAuthenticated) {
+    return null;
+  }
+
   const schema = z.object({
     full_name: z.string().min(1, t("fullNameRequired")),
     email: z.string().min(1, t("emailRequired")).email(t("emailInvalid")),

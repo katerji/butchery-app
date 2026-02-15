@@ -1,4 +1,4 @@
-import { apiClient } from "./client";
+import { apiClient, API_URL } from "./client";
 
 export interface RegisterRequest {
   full_name: string;
@@ -36,8 +36,6 @@ export function loginCustomer(data: LoginRequest): Promise<LoginResponse> {
     body: JSON.stringify(data),
   });
 }
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8080/api/v1";
 
 export async function logoutCustomer(accessToken: string, refreshToken: string): Promise<void> {
   await fetch(`${API_URL}/auth/logout`, {

@@ -32,7 +32,11 @@ export function Header() {
 
   async function handleLogout() {
     if (accessToken && refreshToken) {
-      await logoutCustomer(accessToken, refreshToken);
+      try {
+        await logoutCustomer(accessToken, refreshToken);
+      } catch {
+        // Still clear local state even if backend call fails
+      }
     }
     logout();
     router.push("/?logged_out=true");

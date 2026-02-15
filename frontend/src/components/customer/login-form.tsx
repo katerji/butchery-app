@@ -49,6 +49,10 @@ export function LoginForm() {
     }
   }, [isAuthenticated, router]);
 
+  if (isAuthenticated) {
+    return null;
+  }
+
   const schema = z.object({
     email: z.string().min(1, t("emailRequired")).email(t("emailInvalid")),
     password: z.string().min(1, t("passwordRequired")),
